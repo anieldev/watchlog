@@ -7,6 +7,13 @@ const KIND_OPTIONS = [
   { id: "anime", label: "Anime" }
 ];
 
+const SORT_OPTIONS = [
+  { id: "recent", label: "Recently watched" },
+  { id: "title", label: "Title" },
+  { id: "year", label: "Release year" },
+  { id: "runtime", label: "Runtime" }
+];
+
 const years = WATCH_ITEMS.map(item => item.releaseYear);
 const yearBounds = {
   min: Math.min(...years),
@@ -36,7 +43,8 @@ const els = {
   cardGrid: document.querySelector("#cardGrid"),
   emptyState: document.querySelector("#emptyState"),
   searchInput: document.querySelector("#searchInput"),
-  sortSelect: document.querySelector("#sortSelect"),
+  sortMenu: document.querySelector("#sortMenu"),
+  sortSummary: document.querySelector("#sortSummary"),
   resultSummary: document.querySelector("#resultSummary"),
   libraryCount: document.querySelector("#libraryCount"),
   clearFilters: document.querySelector("#clearFilters"),
@@ -137,6 +145,14 @@ function renderFormatTabs() {
 }
 
 function renderDropdownOptions() {
+  els.sortMenu.innerHTML = SORT_OPTIONS.map(option => `
+    <button class="menu-button ${state.sort === option.id ? "active" : ""}"
+      type="button"
+      data-sort="${option.id}">
+      ${option.label}
+    </button>
+  `).join("");
+
   els.categoryMenu.innerHTML = CATEGORY_OPTIONS.map(category => `
     <label class="check-row">
       <input type="checkbox" value="${category}" data-filter="category" ${state.categories.has(category) ? "checked" : ""} />
@@ -169,6 +185,7 @@ function summarizeSelection(values, formatter = value => value) {
 }
 
 function renderFilterLabels() {
+  els.sortSummary.textContent = SORT_OPTIONS.find(option => option.id === state.sort)?.label || "Recently watched";
   els.categorySummary.textContent = summarizeSelection(state.categories);
   els.countrySummary.textContent = summarizeSelection(state.countries, countryLabel);
   els.releaseSummary.textContent =
@@ -397,8 +414,13 @@ els.searchInput.addEventListener("input", event => {
   renderCards();
 });
 
-els.sortSelect.addEventListener("change", event => {
-  state.sort = event.target.value;
+els.sortMenu.addEventListener("click", event => {
+  const option = event.target.closest("[data-sort]");
+  if (!option) return;
+  state.sort = option.dataset.sort;
+  closeDropdowns();
+  renderDropdownOptions();
+  renderFilterLabels();
   renderCards();
 });
 

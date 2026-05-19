@@ -39,15 +39,13 @@
             </div>
 
             <section class="filter-bar" aria-label="Filters">
-              <label class="filter-select">
-                <span>Sort</span>
-                <select id="sortSelect">
-                  <option value="recent">Recently watched</option>
-                  <option value="title">Title</option>
-                  <option value="year">Release year</option>
-                  <option value="runtime">Runtime</option>
-                </select>
-              </label>
+              <div class="dropdown-filter" data-dropdown="sort">
+                <button class="filter-trigger" type="button" aria-expanded="false">
+                  <span>Sort</span>
+                  <strong id="sortSummary">Recently watched</strong>
+                </button>
+                <div class="filter-menu" id="sortMenu"></div>
+              </div>
 
               <div class="dropdown-filter" data-dropdown="categories">
                 <button class="filter-trigger" type="button" aria-expanded="false">

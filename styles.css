@@ -253,20 +253,6 @@ select {
   position: relative;
 }
 
-.filter-select {
-  display: grid;
-  gap: 5px;
-}
-
-.filter-select span {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.filter-select select {
-  width: 100%;
-}
-
 .filter-trigger {
   width: 100%;
   min-height: 54px;
@@ -332,6 +318,26 @@ select {
   padding: 0 8px;
   color: #e4e4e7;
   cursor: pointer;
+}
+
+.menu-button {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: calc(var(--radius) - 2px);
+  padding: 0 8px;
+  background: transparent;
+  color: #e4e4e7;
+  text-align: left;
+}
+
+.menu-button:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.menu-button.active {
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 .check-row:hover {
