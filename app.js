@@ -89,6 +89,26 @@ function runtimeText(item) {
   return parts.join(" / ") || `${totalMinutes(item)} min`;
 }
 
+function escapeAttribute(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+function posterShell(item, className, content = "") {
+  const image = item.assets.posterImage
+    ? `<img class="poster-image" src="${escapeAttribute(item.assets.posterImage)}" alt="" loading="lazy" referrerpolicy="no-referrer" />`
+    : "";
+  return `
+    <div class="${className} ${image ? "has-image" : ""}" style="--poster: ${item.assets.posterColor}">
+      ${image}
+      ${content}
+    </div>
+  `;
+}
+
 function formatDate(date) {
   return new Intl.DateTimeFormat("en", { month: "short", day: "numeric", year: "numeric" })
     .format(new Date(`${date}T12:00:00`));
@@ -225,9 +245,7 @@ function renderCards() {
 
   els.cardGrid.innerHTML = items.map(item => `
     <button class="card" data-id="${item.id}">
-      <div class="poster" style="--poster: ${item.assets.posterColor}">
-        <span class="type-badge">${kindLabel(item.kind)}</span>
-      </div>
+      ${posterShell(item, "poster", `<span class="type-badge">${kindLabel(item.kind)}</span>`)}
       <div class="card-body">
         <h3>${item.title}</h3>
         <div class="card-meta">
@@ -280,7 +298,7 @@ function openDrawer(id) {
   els.drawerContent.innerHTML = `
     <div class="drawer-inner">
       <div class="drawer-title-row">
-        <div class="drawer-poster" style="--poster: ${item.assets.posterColor}"></div>
+        ${posterShell(item, "drawer-poster")}
         <div>
           <h2>${item.title}</h2>
           <div class="detail-meta">
