@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WatchlogItem",
+  "type": "object",
+  "required": [
+    "id",
+    "title",
+    "kind",
+    "releaseYear",
+    "watchStatus",
+    "watchedDate",
+    "runtime",
+    "categories",
+    "countries",
+    "synopsis",
+    "credits",
+    "production",
+    "assets"
+  ],
+  "properties": {
+    "id": { "type": "string", "description": "Stable kebab-case id used by the client UI." },
+    "title": { "type": "string" },
+    "kind": { "type": "string", "enum": ["movie", "show", "anime"] },
+    "releaseYear": { "type": "integer" },
+    "watchStatus": {
+      "type": "string",
+      "examples": ["planned", "watching", "watched", "completed", "caught up", "dropped"]
+    },
+    "watchedDate": { "type": "string", "format": "date" },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "minutes": { "type": "integer" },
+        "seasons": { "type": "integer" },
+        "episodes": { "type": "integer" },
+        "minutesPerEpisode": { "type": "integer" }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Broad genre/category labels used by the category multiselect."
+    },
+    "countries": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "ISO-like country codes matching COUNTRY_OPTIONS in data.js."
+    },
+    "synopsis": { "type": "string" },
+    "credits": {
+      "type": "object",
+      "required": ["cast", "staff"],
+      "properties": {
+        "cast": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "role"],
+            "properties": {
+              "name": { "type": "string" },
+              "role": { "type": "string" }
+            }
+          }
+        },
+        "staff": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["job", "name"],
+            "properties": {
+              "job": { "type": "string" },
+              "name": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "production": {
+      "type": "object",
+      "required": ["studios", "languages", "release"],
+      "properties": {
+        "studios": { "type": "array", "items": { "type": "string" } },
+        "languages": { "type": "array", "items": { "type": "string" } },
+        "release": { "type": "string" }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "required": ["posterColor"],
+      "properties": {
+        "posterColor": { "type": "string" },
+        "posterImage": { "type": ["string", "null"] },
+        "backdropImage": { "type": ["string", "null"] }
+      }
+    }
+  }
+}
