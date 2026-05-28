@@ -166,11 +166,10 @@ function renderFormatTabs() {
 
 function renderDropdownOptions() {
   els.sortMenu.innerHTML = SORT_OPTIONS.map(option => `
-    <button class="menu-button ${state.sort === option.id ? "active" : ""}"
-      type="button"
-      data-sort="${option.id}">
-      ${option.label}
-    </button>
+    <label class="check-row">
+      <input type="radio" name="sort" value="${option.id}" data-sort ${state.sort === option.id ? "checked" : ""} />
+      <span>${option.label}</span>
+    </label>
   `).join("");
 
   els.categoryMenu.innerHTML = CATEGORY_OPTIONS.map(category => `
@@ -432,10 +431,10 @@ els.searchInput.addEventListener("input", event => {
   renderCards();
 });
 
-els.sortMenu.addEventListener("click", event => {
-  const option = event.target.closest("[data-sort]");
+els.sortMenu.addEventListener("change", event => {
+  const option = event.target.closest("input[type='radio'][data-sort]");
   if (!option) return;
-  state.sort = option.dataset.sort;
+  state.sort = option.value;
   closeDropdowns();
   renderDropdownOptions();
   renderFilterLabels();
