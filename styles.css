@@ -28,6 +28,10 @@ body {
     Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+body.drawer-open {
+  overflow: hidden;
+}
+
 button,
 input,
 select {
@@ -587,6 +591,7 @@ select {
   border-radius: 16px 16px 0 0;
   background: #0d0d0e;
   box-shadow: 0 -18px 60px rgba(0, 0, 0, 0.56);
+  overscroll-behavior: contain;
   overflow-y: auto;
   transform: translateY(105%);
   transition: transform 210ms ease;

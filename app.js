@@ -339,12 +339,14 @@ function openDrawer(id) {
   `;
   els.drawer.classList.add("open");
   els.backdrop.classList.add("open");
+  document.body.classList.add("drawer-open");
   els.drawer.setAttribute("aria-hidden", "false");
 }
 
 function closeDrawer() {
   els.drawer.classList.remove("open");
   els.backdrop.classList.remove("open");
+  document.body.classList.remove("drawer-open");
   els.drawer.setAttribute("aria-hidden", "true");
 }
 
